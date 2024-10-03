@@ -66,30 +66,18 @@
 					<legend class="mortgage-calculator-content__legend">Mortgage Type</legend>
 					<div class="mortgage-calculator-content__input-field-select-group">
 						<div class="mortgage-calculator-content__input-field">
-							<label
-								class="input__label input__label--type--button input__label--color--dark"
-								for="repayment"
-								><span>Repayment</span></label
-							>
-							<input
-								id="repayment"
-								class="input input--type--radio"
-								name="mortgage-type"
-								type="radio"
-							/>
+							<label class="radio-input__label input__label--color--dark">
+								<input id="repayment" class="radio-input" name="mortgage-type" type="radio" />
+								<span class="radio-input__radio-mark"></span>
+								<span>Repayment</span>
+							</label>
 						</div>
 						<div class="mortgage-calculator-content__input-field">
-							<label
-								class="input__label input__label--type--button input__label--color--dark"
-								for="interest-only"
-								><span>Interest Only</span></label
-							>
-							<input
-								id="interest-only"
-								class="input input--type--radio"
-								name="mortgage-type"
-								type="radio"
-							/>
+							<label class="radio-input__label input__label--color--dark">
+								<input id="interest-only" class="radio-input" name="mortgage-type" type="radio" />
+								<span class="radio-input__radio-mark"></span>
+								<span>Interest Only</span>
+							</label>
 						</div>
 					</div>
 				</fieldset>
@@ -205,6 +193,62 @@
 		position: relative;
 	}
 
+	.radio-input {
+		position: absolute;
+		opacity: 0;
+		cursor: pointer;
+	}
+
+	.radio-input__label {
+		display: flex;
+		align-items: center;
+		cursor: pointer;
+		border: 1rem solid var(--color-slate-500);
+		border-radius: 4rem;
+		width: inherit;
+		height: 48rem;
+		background-color: transparent;
+	}
+
+	.radio-input__radio-mark {
+		width: 20rem;
+		height: 20rem;
+		border-radius: 50%;
+		background-color: transparent;
+		border: 2rem solid var(--color-slate-700);
+		display: inline-block;
+		position: relative;
+		transition: background-color 0.3s ease;
+		margin: 0 16rem;
+	}
+
+	.radio-input:checked + .radio-input__radio-mark {
+		background-color: transparent;
+		border-color: var(--color-lime);
+	}
+
+	.radio-input__radio-mark::after {
+		content: "";
+		position: absolute;
+		display: none;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		width: 10rem;
+		height: 10rem;
+		border-radius: 50%;
+		background: var(--color-lime);
+	}
+
+	.radio-input:checked + .radio-input__radio-mark::after {
+		display: block;
+	}
+
+	.radio-input__radio-mark:hover {
+		background-color: transparent;
+		border-color: var(--color-lime);
+	}
+
 	.input--type--text {
 		width: inherit;
 		border: 1rem solid var(--color-slate-500);
@@ -215,15 +259,6 @@
 		line-height: 125%;
 		color: var(--color-slate-900);
 		padding: 12.5rem 0;
-	}
-
-	.input--type--radio {
-		width: 24rem;
-		height: 24rem;
-		position: absolute;
-		top: 50%;
-		left: 16rem;
-		transform: translateY(-50%);
 	}
 
 	.input__label {
@@ -248,21 +283,6 @@
 		padding: 0 16rem;
 		top: 0;
 		right: 0;
-	}
-
-	.input__label--type--button {
-		border: 1rem solid var(--color-slate-500);
-		border-radius: 4rem;
-		width: inherit;
-		height: 48rem;
-		background-color: transparent;
-
-		> span {
-			position: absolute;
-			top: 50%;
-			left: 56rem;
-			transform: translateY(-50%);
-		}
 	}
 
 	.input__label--color--light {
