@@ -114,12 +114,26 @@
 	.mortgage-calculator {
 		display: flex;
 		flex-direction: column;
+
+		@media (width >= 768px) {
+			margin: 40rem;
+			border-radius: 24rem;
+			overflow: hidden;
+			max-width: 688rem;
+		}
 	}
 
 	.mortgage-calculator__header {
 		display: flex;
 		flex-direction: column;
 		row-gap: 8rem;
+
+		@media (width >= 768px) {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			row-gap: unset;
+		}
 	}
 
 	.mortgage-calculator__title {
@@ -148,6 +162,10 @@
 
 	.mortgage-calculator__mortgage-calculator-content {
 		margin-top: 24rem;
+
+		@media (width >= 768px) {
+			margin-top: 40rem;
+		}
 	}
 
 	.mortgage-calculator-content {
@@ -160,6 +178,10 @@
 		margin: unset;
 		padding: unset;
 		border: unset;
+
+		@media (width >= 768px) {
+			width: 100%;
+		}
 	}
 
 	.mortgage-calculator-content__legend {
@@ -181,6 +203,12 @@
 		display: flex;
 		flex-direction: column;
 		row-gap: 24rem;
+
+		@media (width >= 768px) {
+			flex-direction: row;
+			row-gap: unset;
+			column-gap: 24rem;
+		}
 	}
 
 	.mortgage-calculator-content__input-field-select-group {
@@ -219,7 +247,7 @@
 		display: inline-block;
 		position: relative;
 		transition: background-color 0.3s ease;
-		margin: 0 16rem;
+		margin: 0 18.25rem;
 	}
 
 	.radio-input:checked + .radio-input__radio-mark {
@@ -304,11 +332,19 @@
 	.mortgage-calculator__calculator-section {
 		background: var(--color-white);
 		padding: 32rem 24rem 32rem 24rem;
+
+		@media (width >= 768px) {
+			padding: 40rem;
+		}
 	}
 
 	.mortgage-calculator__results-section {
 		background: var(--color-slate-900);
 		padding: 32rem 24rem 32rem 24rem;
+
+		@media (width >= 768px) {
+			padding: 40rem;
+		}
 	}
 
 	.mortgage-calculator__text {
@@ -322,7 +358,7 @@
 	}
 
 	.mortgage-calculator__calculations-image {
-		width: 193rem;
+		width: 192rem;
 		height: 192rem;
 		display: block;
 		margin: 0 auto 16rem;
@@ -334,7 +370,7 @@
 	}
 
 	.button__calculator-icon {
-		width: 25rem;
+		width: 24rem;
 		height: 24rem;
 	}
 
@@ -348,6 +384,10 @@
 		color: var(--color-slate-700);
 		text-align: left;
 		width: fit-content;
+
+		@media (width >= 768px) {
+			text-align: unset;
+		}
 	}
 
 	.button--type--pill {
@@ -365,5 +405,11 @@
 		align-items: center;
 		justify-content: center;
 		column-gap: 12rem;
+
+		@media (width >= 768px) {
+			width: fit-content;
+			padding: 16.5rem 40rem;
+			margin-top: 16rem;
+		}
 	}
 </style>

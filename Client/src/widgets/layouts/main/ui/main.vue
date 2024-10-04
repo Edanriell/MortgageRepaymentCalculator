@@ -1,9 +1,17 @@
 <script lang="ts" setup></script>
 
 <template>
-	<main>
+	<main class="main">
 		<slot />
 	</main>
 </template>
 
-<style scoped></style>
+<style scoped>
+	.main {
+		@media (width >= 768px) {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+		}
+	}
+</style>
