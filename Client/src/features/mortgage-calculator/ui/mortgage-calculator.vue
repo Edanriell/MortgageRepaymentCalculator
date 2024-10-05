@@ -22,7 +22,7 @@
 						>
 						<input
 							id="mortgage-amount"
-							class="input input--type--text"
+							class="input input--type--text input--padding--60rem"
 							name="mortgage-amount"
 							type="text"
 						/>
@@ -39,7 +39,7 @@
 							>
 							<input
 								id="mortgage-term"
-								class="input input--type--text"
+								class="input input--type--text input--padding--96rem"
 								name="mortgage-term"
 								type="text"
 							/>
@@ -55,7 +55,7 @@
 							>
 							<input
 								id="interest-rate"
-								class="input input--type--text"
+								class="input input--type--text input--padding--67rem"
 								name="interest-rate"
 								type="text"
 							/>
@@ -335,6 +335,21 @@
 		font-size: 18rem;
 		line-height: 125%;
 		color: var(--color-slate-900);
+	}
+
+	.input--padding--60rem {
+		padding-left: 60.5rem;
+		padding-right: 16.5rem;
+	}
+
+	.input--padding--96rem {
+		padding-left: 16.5rem;
+		padding-right: 96.5rem;
+	}
+
+	.input--padding--67rem {
+		padding-left: 16.5rem;
+		padding-right: 67.5rem;
 	}
 
 	.mortgage-calculator__calculator-section {
