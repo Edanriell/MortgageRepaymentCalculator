@@ -1,4 +1,6 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	import { Input } from "@shared/ui/input/ui";
+</script>
 
 <template>
 	<section class="mortgage-calculator">
@@ -14,70 +16,65 @@
 			<div class="mortgage-calculator__mortgage-calculator-content mortgage-calculator-content">
 				<fieldset class="mortgage-calculator-content__fieldset">
 					<legend class="mortgage-calculator-content__legend">Mortgage Amount</legend>
-					<div class="mortgage-calculator-content__input-field">
-						<label
-							class="input__label input__label--position-left input__label--color--light"
-							for="mortgage-amount"
-							>£</label
-						>
-						<input
-							id="mortgage-amount"
-							class="input input--type--text input--padding--60rem"
-							name="mortgage-amount"
-							type="text"
-						/>
-					</div>
+					<Input
+						input-classes="input--padding--60rem"
+						input-field-classes="mortgage-calculator-content__input-field"
+						input-id="mortgage-amount"
+						input-name="mortgage-amount"
+						input-type="text"
+						label-for="mortgage-amount"
+						label-name="£"
+						label-position="left"
+					/>
 				</fieldset>
 				<div class="mortgage-calculator-content__input-field-group">
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Mortgage Term</legend>
-						<div class="mortgage-calculator-content__input-field">
-							<label
-								class="input__label input__label--position-right input__label--color--light"
-								for="mortgage-term"
-								>years</label
-							>
-							<input
-								id="mortgage-term"
-								class="input input--type--text input--padding--96rem"
-								name="mortgage-term"
-								type="text"
-							/>
-						</div>
+						<Input
+							input-classes="input--padding--96rem"
+							input-field-classes="mortgage-calculator-content__input-field"
+							input-id="mortgage-term"
+							input-name="mortgage-term"
+							input-type="text"
+							label-for="mortgage-term"
+							label-name="years"
+							label-position="right"
+						/>
 					</fieldset>
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Interest Rate</legend>
-						<div class="mortgage-calculator-content__input-field">
-							<label
-								class="input__label input__label--position-right input__label--color--light"
-								for="interest-rate"
-								>%</label
-							>
-							<input
-								id="interest-rate"
-								class="input input--type--text input--padding--67rem"
-								name="interest-rate"
-								type="text"
-							/>
-						</div>
+						<Input
+							input-classes="input--padding--67rem"
+							input-field-classes="mortgage-calculator-content__input-field"
+							input-id="interest-rate"
+							input-name="interest-rate"
+							input-type="text"
+							label-for="interest-rate"
+							label-name="%"
+							label-position="right"
+						/>
 					</fieldset>
 				</div>
 				<fieldset class="mortgage-calculator-content__fieldset">
 					<legend class="mortgage-calculator-content__legend">Mortgage Type</legend>
 					<div class="mortgage-calculator-content__input-field-select-group">
 						<div class="mortgage-calculator-content__input-field">
-							<label class="radio-input__label input__label--color--dark">
-								<input id="repayment" class="radio-input" name="mortgage-type" type="radio" />
-								<span class="radio-input__radio-mark"></span>
-								<span>Repayment</span>
-							</label>
+							<Input
+								input-id="repayment"
+								input-name="mortgage-type"
+								input-type="radio"
+								label-for="repayment"
+								label-name="Repayment"
+							/>
 						</div>
 						<div class="mortgage-calculator-content__input-field">
-							<label class="radio-input__label input__label--color--dark">
-								<input id="interest-only" class="radio-input" name="mortgage-type" type="radio" />
-								<span class="radio-input__radio-mark"></span>
-								<span>Interest Only</span>
-							</label>
+							<Input
+								input-id="interest-only"
+								input-name="mortgage-type"
+								input-type="radio"
+								label-for="interest-only"
+								label-name="Interest Only"
+							/>
 						</div>
 					</div>
 				</fieldset>
@@ -223,133 +220,6 @@
 		display: flex;
 		flex-direction: column;
 		row-gap: 12rem;
-	}
-
-	.input {
-		position: relative;
-	}
-
-	.radio-input {
-		position: absolute;
-		opacity: 0;
-		cursor: pointer;
-	}
-
-	.radio-input__label {
-		display: flex;
-		align-items: center;
-		cursor: pointer;
-		border: 1rem solid var(--color-slate-500);
-		border-radius: 4rem;
-		width: inherit;
-		height: 48rem;
-		background-color: transparent;
-	}
-
-	.radio-input__radio-mark {
-		width: 20rem;
-		height: 20rem;
-		border-radius: 50%;
-		background-color: transparent;
-		border: 2rem solid var(--color-slate-700);
-		display: inline-block;
-		position: relative;
-		transition: background-color 0.3s ease;
-		margin: 0 18.25rem;
-	}
-
-	.radio-input:checked + .radio-input__radio-mark {
-		background-color: transparent;
-		border-color: var(--color-lime);
-	}
-
-	.radio-input__radio-mark::after {
-		content: "";
-		position: absolute;
-		display: none;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%, -50%);
-		width: 10rem;
-		height: 10rem;
-		border-radius: 50%;
-		background: var(--color-lime);
-	}
-
-	.radio-input:checked + .radio-input__radio-mark::after {
-		display: block;
-	}
-
-	.radio-input__radio-mark:hover {
-		background-color: transparent;
-		border-color: var(--color-lime);
-	}
-
-	.input--type--text {
-		width: inherit;
-		border: 1rem solid var(--color-slate-500);
-		border-radius: 4rem;
-		font-family: var(--font-family), sans-serif;
-		font-weight: 700;
-		font-size: 18rem;
-		line-height: 125%;
-		color: var(--color-slate-900);
-		padding: 12.5rem 0;
-	}
-
-	.input__label {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.input__label--position-left {
-		background: var(--color-slate-100);
-		position: absolute;
-		height: 100%;
-		padding: 0 16rem;
-		top: 0;
-		left: 0;
-	}
-
-	.input__label--position-right {
-		background: var(--color-slate-100);
-		position: absolute;
-		height: 100%;
-		padding: 0 16rem;
-		top: 0;
-		right: 0;
-	}
-
-	.input__label--color--light {
-		font-family: var(--font-family), sans-serif;
-		font-weight: 700;
-		font-size: 18rem;
-		line-height: 125%;
-		color: var(--color-slate-700);
-	}
-
-	.input__label--color--dark {
-		font-family: var(--font-family), sans-serif;
-		font-weight: 700;
-		font-size: 18rem;
-		line-height: 125%;
-		color: var(--color-slate-900);
-	}
-
-	.input--padding--60rem {
-		padding-left: 60.5rem;
-		padding-right: 16.5rem;
-	}
-
-	.input--padding--96rem {
-		padding-left: 16.5rem;
-		padding-right: 96.5rem;
-	}
-
-	.input--padding--67rem {
-		padding-left: 16.5rem;
-		padding-right: 67.5rem;
 	}
 
 	.mortgage-calculator__calculator-section {
