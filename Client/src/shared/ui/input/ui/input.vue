@@ -9,6 +9,7 @@
 		inputType?: "text" | "radio";
 		labelPosition?: "left" | "right";
 		placeholder?: string;
+		isChecked?: boolean;
 	};
 
 	const {
@@ -20,7 +21,8 @@
 		inputId = "",
 		inputType = "text",
 		labelPosition = "right",
-		placeholder = ""
+		placeholder = "",
+		isChecked = false
 	} = defineProps<InputProps>();
 </script>
 
@@ -46,8 +48,12 @@
 	</div>
 	<label
 		v-if="inputType === 'radio'"
+		:class="{
+			'radio-input__label': true,
+			'input__label--color--dark': true,
+			'radio-input__label--checked': isChecked
+		}"
 		:for="labelFor"
-		class="radio-input__label input__label--color--dark"
 	>
 		<input :id="inputId" :name="inputName" class="radio-input" type="radio" />
 		<span class="radio-input__radio-mark"></span>
@@ -59,6 +65,11 @@
 	.mortgage-calculator-content__input-field {
 		position: relative;
 		width: 100%;
+	}
+
+	.radio-input__label--checked {
+		background: rgba(216, 219, 47, 0.15) !important;
+		border: 1rem solid var(--color-lime) !important;
 	}
 
 	.input {
