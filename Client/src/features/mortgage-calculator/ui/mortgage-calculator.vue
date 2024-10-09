@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 	import { Input } from "@shared/ui/input/ui";
+	import { Button } from "@shared/ui/button/ui";
 </script>
 
 <template>
@@ -11,7 +12,7 @@
 				>
 					Mortgage Calculator
 				</h2>
-				<button class="button button--type--text-only" type="button">Clear All</button>
+				<Button button-text="Clear All" button-type="text-only" />
 			</header>
 			<div class="mortgage-calculator__mortgage-calculator-content mortgage-calculator-content">
 				<fieldset class="mortgage-calculator-content__fieldset">
@@ -78,14 +79,15 @@
 						</div>
 					</div>
 				</fieldset>
-				<button class="button button--type--pill" type="button">
-					<img
-						alt="Calculator"
-						class="button__calculator-icon"
-						src="/images/vector/icons/calculator.svg"
-					/>
-					<span>Calculate Repayments</span>
-				</button>
+				<Button button-text="Calculate Repayments" button-type="pill">
+					<template v-slot:icon>
+						<img
+							alt="Calculator"
+							class="button__calculator-icon"
+							src="/images/vector/icons/calculator.svg"
+						/>
+					</template>
+				</Button>
 			</div>
 		</div>
 		<div class="mortgage-calculator__results-section">
@@ -268,59 +270,5 @@
 		height: 192rem;
 		display: block;
 		margin: 0 auto 16rem;
-	}
-
-	.button {
-		cursor: pointer;
-		display: block;
-	}
-
-	.button__calculator-icon {
-		flex: 0 0 auto;
-		width: 18rem;
-		height: 20rem;
-	}
-
-	.button--type--text-only {
-		font-family: var(--font-family), sans-serif;
-		font-weight: 500;
-		font-size: 16rem;
-		line-height: 150%;
-		text-decoration: underline;
-		text-decoration-skip-ink: none;
-		color: var(--color-slate-700);
-		text-align: left;
-		width: fit-content;
-
-		@media (width >= 768px) {
-			text-align: unset;
-		}
-	}
-
-	.button--type--pill {
-		border-radius: 999rem;
-		background: var(--color-lime);
-		font-family: var(--font-family), sans-serif;
-		font-weight: 700;
-		font-size: 18rem;
-		line-height: 125%;
-		text-align: center;
-		color: var(--color-slate-900);
-		width: 100%;
-		padding: 16.5rem 0;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		column-gap: 15.75rem;
-
-		> span {
-			flex: 0 0 auto;
-		}
-
-		@media (width >= 768px) {
-			width: fit-content;
-			padding: 16.5rem 40rem 16.5rem 43.75rem;
-			margin-top: 16rem;
-		}
 	}
 </style>
