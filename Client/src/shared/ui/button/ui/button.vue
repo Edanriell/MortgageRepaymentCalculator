@@ -5,14 +5,26 @@
 	};
 
 	const { buttonText, buttonType } = defineProps<ButtonProps>();
+
+	defineEmits(["click"]);
 </script>
 
 <template>
-	<button v-if="buttonType === 'pill'" class="button button--type--pill" type="button">
+	<button
+		v-if="buttonType === 'pill'"
+		class="button button--type--pill"
+		type="button"
+		@click="$emit('click')"
+	>
 		<slot name="icon"></slot>
 		<span>{{ buttonText }}</span>
 	</button>
-	<button v-if="buttonType === 'text-only'" class="button button--type--text-only" type="button">
+	<button
+		v-if="buttonType === 'text-only'"
+		class="button button--type--text-only"
+		type="button"
+		@click="$emit('click')"
+	>
 		{{ buttonText }}
 	</button>
 </template>

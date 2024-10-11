@@ -1,6 +1,14 @@
 <script lang="ts" setup>
 	import { Input } from "@shared/ui/input/ui";
 	import { Button } from "@shared/ui/button/ui";
+
+	import { useMortgageCalculatorStore } from "../model";
+
+	const store = useMortgageCalculatorStore();
+
+	const calculateRepayments = () => {
+		console.log("Calculate repayments called");
+	};
 </script>
 
 <template>
@@ -12,12 +20,13 @@
 				>
 					Mortgage Calculator
 				</h2>
-				<Button button-text="Clear All" button-type="text-only" />
+				<Button button-text="Clear All" button-type="text-only" @click="store.resetStore()" />
 			</header>
 			<div class="mortgage-calculator__mortgage-calculator-content mortgage-calculator-content">
 				<fieldset class="mortgage-calculator-content__fieldset">
 					<legend class="mortgage-calculator-content__legend">Mortgage Amount</legend>
 					<Input
+						v-model="store.mortgageAmount"
 						input-classes="input--padding--60rem"
 						input-field-classes="mortgage-calculator-content__input-field"
 						input-id="mortgage-amount"
@@ -32,6 +41,7 @@
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Mortgage Term</legend>
 						<Input
+							v-model="store.mortgageTerm"
 							input-classes="input--padding--96rem"
 							input-field-classes="mortgage-calculator-content__input-field"
 							input-id="mortgage-term"
@@ -45,6 +55,7 @@
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Interest Rate</legend>
 						<Input
+							v-model="store.interestRate"
 							input-classes="input--padding--67rem"
 							input-field-classes="mortgage-calculator-content__input-field"
 							input-id="interest-rate"
@@ -61,25 +72,31 @@
 					<div class="mortgage-calculator-content__input-field-select-group">
 						<div class="mortgage-calculator-content__input-field">
 							<Input
+								v-model="store.mortgageType"
+								:is-checked="store.mortgageType === 'repayment'"
 								input-id="repayment"
 								input-name="mortgage-type"
 								input-type="radio"
 								label-for="repayment"
 								label-name="Repayment"
+								value="repayment"
 							/>
 						</div>
 						<div class="mortgage-calculator-content__input-field">
 							<Input
+								v-model="store.mortgageType"
+								:is-checked="store.mortgageType === 'interest-only'"
 								input-id="interest-only"
 								input-name="mortgage-type"
 								input-type="radio"
 								label-for="interest-only"
 								label-name="Interest Only"
+								value="interest-only"
 							/>
 						</div>
 					</div>
 				</fieldset>
-				<Button button-text="Calculate Repayments" button-type="pill">
+				<Button button-text="Calculate Repayments" button-type="pill" @click="calculateRepayments">
 					<template v-slot:icon>
 						<img
 							alt="Calculator"

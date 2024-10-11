@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 	type InputProps = {
+		modelValue: string;
 		labelName: string;
 		labelFor: string;
 		inputName: string;
@@ -10,9 +11,11 @@
 		labelPosition?: "left" | "right";
 		placeholder?: string;
 		isChecked?: boolean;
+		value?: string;
 	};
 
 	const {
+		modelValue,
 		labelName,
 		labelFor,
 		inputName,
@@ -22,8 +25,16 @@
 		inputType = "text",
 		labelPosition = "right",
 		placeholder = "",
-		isChecked = false
+		isChecked = false,
+		value = ""
 	} = defineProps<InputProps>();
+
+	const emit = defineEmits(["update:modelValue"]);
+
+	const updateValue = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		emit("update:modelValue", target.value);
+	};
 </script>
 
 <template>
@@ -43,7 +54,9 @@
 			:class="['input input--type--text ' + inputClasses]"
 			:name="inputName"
 			:placeholder="placeholder"
+			:value="modelValue"
 			type="text"
+			@input="updateValue"
 		/>
 	</div>
 	<label
@@ -51,12 +64,26 @@
 		:class="{
 			'radio-input__label': true,
 			'input__label--color--dark': true,
-			'radio-input__label--checked': isChecked
+			'radio-input__label--state--selected': isChecked
 		}"
 		:for="labelFor"
 	>
-		<input :id="inputId" :name="inputName" class="radio-input" type="radio" />
-		<span class="radio-input__radio-mark"></span>
+		<input
+			:id="inputId"
+			:class="{
+				'radio-input': true
+			}"
+			:name="inputName"
+			:value="value"
+			type="radio"
+			@change="updateValue"
+		/>
+		<span
+			:class="{
+				'radio-input__radio-mark': true,
+				'radio-input__radio-mark--state--selected': isChecked
+			}"
+		></span>
 		<span>{{ labelName }}</span>
 	</label>
 </template>
@@ -67,7 +94,7 @@
 		width: 100%;
 	}
 
-	.radio-input__label--checked {
+	.radio-input__label--state--selected {
 		background: rgba(216, 219, 47, 0.15) !important;
 		border: 1rem solid var(--color-lime) !important;
 	}
@@ -120,11 +147,6 @@
 		margin: 0 18.25rem;
 	}
 
-	.radio-input:checked + .radio-input__radio-mark {
-		background-color: transparent;
-		border-color: var(--color-lime);
-	}
-
 	.radio-input__radio-mark::after {
 		content: "";
 		position: absolute;
@@ -138,8 +160,13 @@
 		background: var(--color-lime);
 	}
 
-	.radio-input:checked + .radio-input__radio-mark::after {
-		display: block;
+	.radio-input__radio-mark--state--selected {
+		background-color: transparent !important;
+		border-color: var(--color-lime) !important;
+
+		&::after {
+			display: block;
+		}
 	}
 
 	.radio-input__radio-mark:hover {
