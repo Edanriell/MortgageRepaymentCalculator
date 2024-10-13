@@ -1,22 +1,57 @@
 <script lang="ts" setup>
-	import { computed } from "vue";
+	import { computed, ref } from "vue";
 
 	import { Input } from "@shared/ui/input/ui";
 	import { Button } from "@shared/ui/button/ui";
 
 	import { useMortgageCalculatorStore } from "../model";
+	import {
+		isNumericString,
+		validateInterestRate,
+		validateMortgageAmount,
+		validateMortgageTerm,
+		validateMortgageType
+	} from "../lib";
 
 	const store = useMortgageCalculatorStore();
 
+	const errors = ref({
+		mortgageAmount: "",
+		mortgageTerm: "",
+		interestRate: "",
+		mortgageType: ""
+	});
+
+	const validateInputs = () => {
+		errors.value.mortgageAmount = validateMortgageAmount(store.mortgageAmount);
+		errors.value.mortgageTerm = validateMortgageTerm(store.mortgageTerm);
+		errors.value.interestRate = validateInterestRate(store.interestRate);
+		errors.value.mortgageType = validateMortgageType(store.mortgageType);
+
+		return !Object.values(errors.value).some((error) => error !== "");
+	};
+
 	const formattedMortgageAmount = computed({
 		get() {
-			return store.mortgageAmount
-				? parseInt(store.mortgageAmount.replace(/,/g, ""), 10).toLocaleString()
-				: "";
+			if (isNumericString(store.mortgageAmount)) {
+				return store.mortgageAmount
+					? parseInt(store.mortgageAmount.replace(/,/g, ""), 10).toLocaleString()
+					: "";
+			} else {
+				return store.mortgageAmount;
+			}
 		},
 		set(value: string) {
-			const cleanedValue = value.replace(/,/g, "");
-			store.setMortgageAmount(cleanedValue);
+			store.setMortgageAmount(value);
+		}
+	});
+
+	const formattedMortgageTerm = computed({
+		get() {
+			return store.mortgageTerm;
+		},
+		set(value: string) {
+			store.setMortgageTerm(value);
 		}
 	});
 
@@ -25,44 +60,25 @@
 			return store.interestRate;
 		},
 		set(value: string) {
-			// Remove all non-numeric characters except for decimal points
-			let cleanedValue = value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
-
-			// Split the value at the decimal point to handle the decimal part separately
-			const parts = cleanedValue.split(".");
-
-			// If there's a decimal part and it's longer than two digits, trim it to two
-			if (parts.length > 1 && parts[1].length > 2) {
-				parts[1] = parts[1].slice(0, 2);
-			}
-
-			// Reconstruct the cleaned value
-			cleanedValue = parts.join(".");
-
-			// Ensure the value is within the range of 0.01 to 100
+			const cleanedValue = value.replace(/,/g, ""); // Remove commas for numeric validation
 			const parsedValue = parseFloat(cleanedValue);
 
-			if (parsedValue < 0.01) {
-				store.setInterestRate("0.01");
-			} else if (parsedValue > 100) {
-				store.setInterestRate("100.00");
+			if (/^\d+(,\d{3})*(\.\d+)?$/.test(value)) {
+				if (parsedValue > 0 && parsedValue <= 100) {
+					store.setInterestRate(parsedValue.toFixed(2)); // Store with two decimal places
+				}
 			} else {
-				// Set the formatted value in the store with two decimal places
-				store.setInterestRate(parsedValue.toFixed(2));
+				store.setInterestRate(value);
 			}
 		}
 	});
 
-	const handleMortgageAmountInput = (event: Event) => {
-		formattedMortgageAmount.value = (event.target as HTMLInputElement).value;
-	};
-
-	const handleInterestRateInput = (event: Event) => {
-		formattedInterestRate.value = (event.target as HTMLInputElement).value;
-	};
-
 	const handleCalculateRepaymentsClick = () => {
-		console.log("Calculate repayments called");
+		if (validateInputs()) {
+			console.log("Valid inputs, calculating repayments...");
+		} else {
+			console.log("Invalid inputs, fix the errors.");
+		}
 	};
 </script>
 
@@ -90,14 +106,16 @@
 						label-for="mortgage-amount"
 						label-name="£"
 						label-position="left"
-						@input="handleMortgageAmountInput"
 					/>
+					<span v-if="errors.mortgageAmount" class="error-message">{{
+						errors.mortgageAmount
+					}}</span>
 				</fieldset>
 				<div class="mortgage-calculator-content__input-field-group">
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Mortgage Term</legend>
 						<Input
-							v-model="store.mortgageTerm"
+							v-model="formattedMortgageTerm"
 							input-classes="input--padding--96rem"
 							input-field-classes="mortgage-calculator-content__input-field"
 							input-id="mortgage-term"
@@ -107,6 +125,7 @@
 							label-name="years"
 							label-position="right"
 						/>
+						<span v-if="errors.mortgageTerm" class="error-message">{{ errors.mortgageTerm }}</span>
 					</fieldset>
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Interest Rate</legend>
@@ -120,8 +139,8 @@
 							label-for="interest-rate"
 							label-name="%"
 							label-position="right"
-							@input="handleInterestRateInput"
 						/>
+						<span v-if="errors.interestRate" class="error-message">{{ errors.interestRate }}</span>
 					</fieldset>
 				</div>
 				<fieldset class="mortgage-calculator-content__fieldset">
@@ -152,6 +171,7 @@
 							/>
 						</div>
 					</div>
+					<span v-if="errors.mortgageType" class="error-message">{{ errors.mortgageType }}</span>
 				</fieldset>
 				<Button
 					button-text="Calculate Repayments"
