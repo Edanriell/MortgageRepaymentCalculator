@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+	import { computed } from "vue";
+
 	import { Input } from "@shared/ui/input/ui";
 	import { Button } from "@shared/ui/button/ui";
 
@@ -6,7 +8,60 @@
 
 	const store = useMortgageCalculatorStore();
 
-	const calculateRepayments = () => {
+	const formattedMortgageAmount = computed({
+		get() {
+			return store.mortgageAmount
+				? parseInt(store.mortgageAmount.replace(/,/g, ""), 10).toLocaleString()
+				: "";
+		},
+		set(value: string) {
+			const cleanedValue = value.replace(/,/g, "");
+			store.setMortgageAmount(cleanedValue);
+		}
+	});
+
+	const formattedInterestRate = computed({
+		get() {
+			return store.interestRate;
+		},
+		set(value: string) {
+			// Remove all non-numeric characters except for decimal points
+			let cleanedValue = value.replace(/[^0-9.]/g, "").replace(/(\..*)\./g, "$1");
+
+			// Split the value at the decimal point to handle the decimal part separately
+			const parts = cleanedValue.split(".");
+
+			// If there's a decimal part and it's longer than two digits, trim it to two
+			if (parts.length > 1 && parts[1].length > 2) {
+				parts[1] = parts[1].slice(0, 2);
+			}
+
+			// Reconstruct the cleaned value
+			cleanedValue = parts.join(".");
+
+			// Ensure the value is within the range of 0.01 to 100
+			const parsedValue = parseFloat(cleanedValue);
+
+			if (parsedValue < 0.01) {
+				store.setInterestRate("0.01");
+			} else if (parsedValue > 100) {
+				store.setInterestRate("100.00");
+			} else {
+				// Set the formatted value in the store with two decimal places
+				store.setInterestRate(parsedValue.toFixed(2));
+			}
+		}
+	});
+
+	const handleMortgageAmountInput = (event: Event) => {
+		formattedMortgageAmount.value = (event.target as HTMLInputElement).value;
+	};
+
+	const handleInterestRateInput = (event: Event) => {
+		formattedInterestRate.value = (event.target as HTMLInputElement).value;
+	};
+
+	const handleCalculateRepaymentsClick = () => {
 		console.log("Calculate repayments called");
 	};
 </script>
@@ -20,13 +75,13 @@
 				>
 					Mortgage Calculator
 				</h2>
-				<Button button-text="Clear All" button-type="text-only" @click="store.resetStore()" />
+				<Button button-text="Clear All" button-type="text-only" @click="store.$reset()" />
 			</header>
 			<div class="mortgage-calculator__mortgage-calculator-content mortgage-calculator-content">
 				<fieldset class="mortgage-calculator-content__fieldset">
 					<legend class="mortgage-calculator-content__legend">Mortgage Amount</legend>
 					<Input
-						v-model="store.mortgageAmount"
+						v-model="formattedMortgageAmount"
 						input-classes="input--padding--60rem"
 						input-field-classes="mortgage-calculator-content__input-field"
 						input-id="mortgage-amount"
@@ -35,6 +90,7 @@
 						label-for="mortgage-amount"
 						label-name="£"
 						label-position="left"
+						@input="handleMortgageAmountInput"
 					/>
 				</fieldset>
 				<div class="mortgage-calculator-content__input-field-group">
@@ -55,7 +111,7 @@
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Interest Rate</legend>
 						<Input
-							v-model="store.interestRate"
+							v-model="formattedInterestRate"
 							input-classes="input--padding--67rem"
 							input-field-classes="mortgage-calculator-content__input-field"
 							input-id="interest-rate"
@@ -64,6 +120,7 @@
 							label-for="interest-rate"
 							label-name="%"
 							label-position="right"
+							@input="handleInterestRateInput"
 						/>
 					</fieldset>
 				</div>
@@ -73,7 +130,7 @@
 						<div class="mortgage-calculator-content__input-field">
 							<Input
 								v-model="store.mortgageType"
-								:is-checked="store.mortgageType === 'repayment'"
+								:is-selected="store.mortgageType === 'repayment'"
 								input-id="repayment"
 								input-name="mortgage-type"
 								input-type="radio"
@@ -85,7 +142,7 @@
 						<div class="mortgage-calculator-content__input-field">
 							<Input
 								v-model="store.mortgageType"
-								:is-checked="store.mortgageType === 'interest-only'"
+								:is-selected="store.mortgageType === 'interest-only'"
 								input-id="interest-only"
 								input-name="mortgage-type"
 								input-type="radio"
@@ -96,7 +153,11 @@
 						</div>
 					</div>
 				</fieldset>
-				<Button button-text="Calculate Repayments" button-type="pill" @click="calculateRepayments">
+				<Button
+					button-text="Calculate Repayments"
+					button-type="pill"
+					@click="handleCalculateRepaymentsClick"
+				>
 					<template v-slot:icon>
 						<img
 							alt="Calculator"
