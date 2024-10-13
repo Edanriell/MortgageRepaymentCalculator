@@ -10,7 +10,7 @@
 		inputType?: "text" | "radio";
 		labelPosition?: "left" | "right";
 		placeholder?: string;
-		isChecked?: boolean;
+		isSelected?: boolean;
 		value?: string;
 	};
 
@@ -25,7 +25,7 @@
 		inputType = "text",
 		labelPosition = "right",
 		placeholder = "",
-		isChecked = false,
+		isSelected = false,
 		value = ""
 	} = defineProps<InputProps>();
 
@@ -64,7 +64,7 @@
 		:class="{
 			'radio-input__label': true,
 			'input__label--color--dark': true,
-			'radio-input__label--state--selected': isChecked
+			'radio-input__label--state--selected': isSelected
 		}"
 		:for="labelFor"
 	>
@@ -81,7 +81,7 @@
 		<span
 			:class="{
 				'radio-input__radio-mark': true,
-				'radio-input__radio-mark--state--selected': isChecked
+				'radio-input__radio-mark--state--selected': isSelected
 			}"
 		></span>
 		<span>{{ labelName }}</span>

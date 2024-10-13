@@ -19,9 +19,6 @@ export const useMortgageCalculatorStore = defineStore("mortgageCalculator", {
 		},
 		setMortgageType(type: string) {
 			this.mortgageType = type;
-		},
-		resetStore() {
-			this.$reset();
 		}
 	}
 });
