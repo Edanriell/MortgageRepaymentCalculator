@@ -11,6 +11,7 @@
 		labelPosition?: "left" | "right";
 		placeholder?: string;
 		isSelected?: boolean;
+		isValid?: string;
 		value?: string;
 	};
 
@@ -26,6 +27,7 @@
 		labelPosition = "right",
 		placeholder = "",
 		isSelected = false,
+		isValid = "idle",
 		value = ""
 	} = defineProps<InputProps>();
 
@@ -44,14 +46,27 @@
 				input__label: true,
 				'input__label--color--light': true,
 				'input__label--position-left': labelPosition === 'left',
-				'input__label--position-right': labelPosition === 'right'
+				'input__label--position-right': labelPosition === 'right',
+				'input__label--state--invalid--position--left':
+					labelPosition === 'left' && isValid === 'invalid',
+				'input__label--state--invalid--position--right':
+					labelPosition === 'right' && isValid === 'invalid',
+				'input__label--state--valid--position--left':
+					labelPosition === 'left' && isValid === 'valid',
+				'input__label--state--valid--position--right':
+					labelPosition === 'right' && isValid === 'valid'
 			}"
 			:for="labelFor"
 			>{{ labelName }}</label
 		>
 		<input
 			:id="inputId"
-			:class="['input input--type--text ' + inputClasses]"
+			:class="{
+				'input input--type--text ': true,
+				'input--state--invalid': isValid === 'invalid',
+				'input--state--valid': isValid === 'valid',
+				[inputClasses]: inputClasses
+			}"
 			:name="inputName"
 			:placeholder="placeholder"
 			:value="modelValue"
@@ -97,10 +112,47 @@
 	.radio-input__label--state--selected {
 		background: rgba(216, 219, 47, 0.15) !important;
 		border: 1rem solid var(--color-lime) !important;
+		position: relative;
 	}
 
 	.input {
 		position: relative;
+	}
+
+	.input__label--state--invalid--position--left {
+		background: var(--color-red) !important;
+		color: var(--color-white) !important;
+		border-top-left-radius: 4rem;
+		border-bottom-left-radius: 4rem;
+	}
+
+	.input__label--state--invalid--position--right {
+		background: var(--color-red) !important;
+		color: var(--color-white) !important;
+		border-top-right-radius: 4rem;
+		border-bottom-right-radius: 4rem;
+	}
+
+	.input__label--state--valid--position--left {
+		background: var(--color-lime) !important;
+		color: var(--color-slate-900) !important;
+		border-top-left-radius: 4rem;
+		border-bottom-left-radius: 4rem;
+	}
+
+	.input__label--state--valid--position--right {
+		background: var(--color-lime) !important;
+		color: var(--color-slate-900) !important;
+		border-top-right-radius: 4rem;
+		border-bottom-right-radius: 4rem;
+	}
+
+	.input--state--valid {
+		border: 1px solid var(--color-lime) !important;
+	}
+
+	.input--state--invalid {
+		border: 1px solid var(--color-red) !important;
 	}
 
 	.input--padding--60rem {
@@ -133,6 +185,14 @@
 		width: inherit;
 		height: 48rem;
 		background-color: transparent;
+
+		&:hover {
+			border: 1px solid var(--color-lime);
+		}
+
+		&:active {
+			border: 1px solid var(--color-lime);
+		}
 	}
 
 	.radio-input__radio-mark {
@@ -177,13 +237,22 @@
 	.input--type--text {
 		width: inherit;
 		border: 1rem solid var(--color-slate-500);
-		border-radius: 4rem;
+		border-radius: 4rem !important;
 		font-family: var(--font-family), sans-serif;
 		font-weight: 700;
 		font-size: 18rem;
 		line-height: 125%;
 		color: var(--color-slate-900);
 		padding: 12.5rem 0;
+		position: relative;
+
+		&:hover {
+			border: 1px solid var(--color-slate-900);
+		}
+
+		&:active {
+			border: 1px solid var(--color-slate-900);
+		}
 	}
 
 	.input__label {

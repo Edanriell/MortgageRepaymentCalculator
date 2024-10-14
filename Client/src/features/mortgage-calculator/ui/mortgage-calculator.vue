@@ -15,20 +15,34 @@
 
 	const store = useMortgageCalculatorStore();
 
-	const errors = ref({
-		mortgageAmount: "",
-		mortgageTerm: "",
-		interestRate: "",
-		mortgageType: ""
+	const inputsValidationState = ref({
+		mortgageAmount: {
+			isInputValid: "idle",
+			errorMessage: ""
+		},
+		mortgageTerm: {
+			isInputValid: "idle",
+			errorMessage: ""
+		},
+		interestRate: {
+			isInputValid: "idle",
+			errorMessage: ""
+		},
+		mortgageType: {
+			isInputValid: "idle",
+			errorMessage: ""
+		}
 	});
 
 	const validateInputs = () => {
-		errors.value.mortgageAmount = validateMortgageAmount(store.mortgageAmount);
-		errors.value.mortgageTerm = validateMortgageTerm(store.mortgageTerm);
-		errors.value.interestRate = validateInterestRate(store.interestRate);
-		errors.value.mortgageType = validateMortgageType(store.mortgageType);
+		inputsValidationState.value.mortgageAmount = validateMortgageAmount(store.mortgageAmount);
+		inputsValidationState.value.mortgageTerm = validateMortgageTerm(store.mortgageTerm);
+		inputsValidationState.value.interestRate = validateInterestRate(store.interestRate);
+		inputsValidationState.value.mortgageType = validateMortgageType(store.mortgageType);
 
-		return !Object.values(errors.value).some((error) => error !== "");
+		return !Object.values(inputsValidationState.value).some(
+			(input) => input.isInputValid === "valid"
+		);
 	};
 
 	const formattedMortgageAmount = computed({
@@ -98,6 +112,7 @@
 					<legend class="mortgage-calculator-content__legend">Mortgage Amount</legend>
 					<Input
 						v-model="formattedMortgageAmount"
+						:is-valid="inputsValidationState.mortgageAmount.isInputValid"
 						input-classes="input--padding--60rem"
 						input-field-classes="mortgage-calculator-content__input-field"
 						input-id="mortgage-amount"
@@ -107,15 +122,22 @@
 						label-name="£"
 						label-position="left"
 					/>
-					<span v-if="errors.mortgageAmount" class="error-message">{{
-						errors.mortgageAmount
-					}}</span>
+					<p
+						v-if="inputsValidationState.mortgageAmount.isInputValid === 'invalid'"
+						v-motion
+						:enter="{ opacity: 1, y: 0 }"
+						:initial="{ opacity: 0, y: -20 }"
+						class="mortgage-calculator__error-message"
+					>
+						{{ inputsValidationState.mortgageAmount.errorMessage }}
+					</p>
 				</fieldset>
 				<div class="mortgage-calculator-content__input-field-group">
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Mortgage Term</legend>
 						<Input
 							v-model="formattedMortgageTerm"
+							:is-valid="inputsValidationState.mortgageTerm.isInputValid"
 							input-classes="input--padding--96rem"
 							input-field-classes="mortgage-calculator-content__input-field"
 							input-id="mortgage-term"
@@ -125,12 +147,21 @@
 							label-name="years"
 							label-position="right"
 						/>
-						<span v-if="errors.mortgageTerm" class="error-message">{{ errors.mortgageTerm }}</span>
+						<p
+							v-if="inputsValidationState.mortgageTerm.isInputValid === 'invalid'"
+							v-motion
+							:enter="{ opacity: 1, y: 0 }"
+							:initial="{ opacity: 0, y: -20 }"
+							class="mortgage-calculator__error-message"
+						>
+							{{ inputsValidationState.mortgageTerm.errorMessage }}
+						</p>
 					</fieldset>
 					<fieldset class="mortgage-calculator-content__fieldset">
 						<legend class="mortgage-calculator-content__legend">Interest Rate</legend>
 						<Input
 							v-model="formattedInterestRate"
+							:is-valid="inputsValidationState.interestRate.isInputValid"
 							input-classes="input--padding--67rem"
 							input-field-classes="mortgage-calculator-content__input-field"
 							input-id="interest-rate"
@@ -140,7 +171,15 @@
 							label-name="%"
 							label-position="right"
 						/>
-						<span v-if="errors.interestRate" class="error-message">{{ errors.interestRate }}</span>
+						<p
+							v-if="inputsValidationState.interestRate.isInputValid === 'invalid'"
+							v-motion
+							:enter="{ opacity: 1, y: 0 }"
+							:initial="{ opacity: 0, y: -20 }"
+							class="mortgage-calculator__error-message"
+						>
+							{{ inputsValidationState.interestRate.errorMessage }}
+						</p>
 					</fieldset>
 				</div>
 				<fieldset class="mortgage-calculator-content__fieldset">
@@ -171,7 +210,15 @@
 							/>
 						</div>
 					</div>
-					<span v-if="errors.mortgageType" class="error-message">{{ errors.mortgageType }}</span>
+					<p
+						v-if="inputsValidationState.mortgageType.isInputValid === 'invalid'"
+						v-motion
+						:enter="{ opacity: 1, y: 0 }"
+						:initial="{ opacity: 0, y: -20 }"
+						class="mortgage-calculator__error-message"
+					>
+						{{ inputsValidationState.mortgageType.errorMessage }}
+					</p>
 				</fieldset>
 				<Button
 					button-text="Calculate Repayments"
@@ -368,5 +415,14 @@
 		height: 192rem;
 		display: block;
 		margin: 0 auto 16rem;
+	}
+
+	.mortgage-calculator__error-message {
+		font-family: var(--font-family), sans-serif;
+		font-weight: 500;
+		font-size: 14rem;
+		line-height: 150%;
+		color: var(--color-red);
+		margin-top: 12rem;
 	}
 </style>
