@@ -185,6 +185,7 @@
 		width: inherit;
 		height: 48rem;
 		background-color: transparent;
+		will-change: border, background;
 		transition:
 			border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955),
 			background 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
@@ -207,6 +208,7 @@
 		display: inline-block;
 		position: relative;
 		margin: 0 18.25rem;
+		will-change: border;
 		transition: border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	}
 
@@ -221,6 +223,7 @@
 		border-radius: 50%;
 		background: var(--color-lime);
 		opacity: 0;
+		will-change: opacity;
 		transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	}
 
@@ -249,6 +252,7 @@
 		color: var(--color-slate-900);
 		padding: 12.5rem 0;
 		position: relative;
+		will-change: border, background;
 		transition:
 			border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955),
 			background 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
@@ -266,6 +270,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		will-change: color;
 		transition: color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	}
 
