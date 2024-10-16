@@ -62,7 +62,7 @@
 		<input
 			:id="inputId"
 			:class="{
-				'input input--type--text ': true,
+				'input input--type--text': true,
 				'input--state--invalid': isValid === 'invalid',
 				'input--state--valid': isValid === 'valid',
 				[inputClasses]: inputClasses
@@ -185,6 +185,9 @@
 		width: inherit;
 		height: 48rem;
 		background-color: transparent;
+		transition:
+			border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+			background 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 
 		&:hover {
 			border: 1px solid var(--color-lime);
@@ -203,14 +206,13 @@
 		border: 2rem solid var(--color-slate-700);
 		display: inline-block;
 		position: relative;
-		transition: background-color 0.3s ease;
 		margin: 0 18.25rem;
+		transition: border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	}
 
 	.radio-input__radio-mark::after {
 		content: "";
 		position: absolute;
-		display: none;
 		top: 50%;
 		left: 50%;
 		transform: translate(-50%, -50%);
@@ -218,6 +220,8 @@
 		height: 10rem;
 		border-radius: 50%;
 		background: var(--color-lime);
+		opacity: 0;
+		transition: opacity 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	}
 
 	.radio-input__radio-mark--state--selected {
@@ -225,7 +229,7 @@
 		border-color: var(--color-lime) !important;
 
 		&::after {
-			display: block;
+			opacity: 1;
 		}
 	}
 
@@ -245,6 +249,9 @@
 		color: var(--color-slate-900);
 		padding: 12.5rem 0;
 		position: relative;
+		transition:
+			border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+			background 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 
 		&:hover {
 			border: 1px solid var(--color-slate-900);
@@ -259,6 +266,7 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		transition: color 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 	}
 
 	.input__label--position-left {
