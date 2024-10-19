@@ -236,20 +236,59 @@
 			</div>
 		</div>
 		<div class="mortgage-calculator__results-section">
-			<img
-				alt="Calculations"
-				class="mortgage-calculator__calculations-image"
-				src="/images/vector/calculations.svg"
-			/>
-			<h2
-				class="mortgage-calculator__title mortgage-calculator__title--color--light mortgage-calculator__title--align--center"
-			>
-				Results shown here
-			</h2>
-			<p class="mortgage-calculator__text">
-				Complete the form and click “calculate repayments” to see what your monthly repayments would
-				be.
-			</p>
+			<div class="mortgage-calculator__results-data-section">
+				<h2
+					class="mortgage-calculator__title mortgage-calculator__title--color--light mortgage-calculator__title--align--left"
+				>
+					Your results
+				</h2>
+				<p class="mortgage-calculator__text mortgage-calculator__text--align-left">
+					Your results are shown below based on the information you provided. To adjust the results,
+					edit the form and click “calculate repayments” again.
+				</p>
+				<dl class="mortgage-calculator__calculations-result calculations-result">
+					<div class="calculations-result__field">
+						<dt
+							class="mortgage-calculator__text mortgage-calculator__text--align-left calculations-result__term"
+						>
+							Your monthly repayments
+						</dt>
+						<dd
+							class="calculations-result__value calculations-result__value--size--large calculations-result__value--color--lime"
+						>
+							£1,797.74
+						</dd>
+					</div>
+					<div class="calculations-result__field">
+						<dt
+							class="mortgage-calculator__text mortgage-calculator__text--align-left calculations-result__term"
+						>
+							Total you'll repay over the term
+						</dt>
+						<dd
+							class="calculations-result__value calculations-result__value--size--normal calculations-result__value--color--white"
+						>
+							£539,322.94
+						</dd>
+					</div>
+				</dl>
+			</div>
+			<div :style="{ display: 'none' }" class="mortgage-calculator__results-info-section">
+				<img
+					alt="Calculations"
+					class="mortgage-calculator__calculations-image"
+					src="/images/vector/calculations.svg"
+				/>
+				<h2
+					class="mortgage-calculator__title mortgage-calculator__title--color--light mortgage-calculator__title--align--center"
+				>
+					Results shown here
+				</h2>
+				<p class="mortgage-calculator__text">
+					Complete the form and click “calculate repayments” to see what your monthly repayments
+					would be.
+				</p>
+			</div>
 		</div>
 	</section>
 </template>
@@ -400,6 +439,21 @@
 		}
 	}
 
+	.mortgage-calculator__results-data-section {
+		display: flex;
+		flex-direction: column;
+
+		@media (width >= 1440px) {
+			height: 100%;
+			justify-content: flex-start;
+		}
+	}
+
+	.mortgage-calculator__results-info-section {
+		display: flex;
+		flex-direction: column;
+	}
+
 	.mortgage-calculator__text {
 		font-family: var(--font-family), sans-serif;
 		font-weight: 500;
@@ -408,6 +462,10 @@
 		color: var(--color-slate-300);
 		margin-top: 16rem;
 		text-align: center;
+	}
+
+	.mortgage-calculator__text--align-left {
+		text-align: left;
 	}
 
 	.mortgage-calculator__calculations-image {
@@ -424,5 +482,88 @@
 		line-height: 150%;
 		color: var(--color-red);
 		margin-top: 12rem;
+	}
+
+	.mortgage-calculator__calculations-result {
+		margin-top: 24rem;
+
+		@media (width >= 768px) {
+			margin-top: 40rem;
+		}
+	}
+
+	.calculations-result {
+		border-top: 4rem solid var(--color-lime);
+		border-radius: 8rem;
+		padding: 24rem 16rem;
+		background: rgba(0, 0, 0, 0.25);
+		display: flex;
+		flex-direction: column;
+		row-gap: 16rem;
+
+		@media (width >= 768px) {
+			row-gap: 32rem;
+			padding: 32rem;
+		}
+	}
+
+	.calculations-result__field {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+
+		&::before {
+			content: "";
+			width: 100%;
+			height: 1rem;
+			background: rgba(154, 190, 213, 0.25);
+			margin-bottom: 16rem;
+		}
+
+		&:first-child::before {
+			content: "";
+			width: unset;
+			height: unset;
+			background-color: unset;
+			margin-bottom: unset;
+		}
+
+		@media (width >= 768px) {
+			&::before {
+				margin-bottom: 32rem;
+			}
+		}
+	}
+
+	.calculations-result__term {
+		margin-top: unset;
+		margin-bottom: 8rem;
+	}
+
+	.calculations-result__value {
+		font-family: var(--font-family);
+		font-weight: 700;
+	}
+
+	.calculations-result__value--size--normal {
+		font-size: 24rem;
+		line-height: 125%;
+	}
+
+	.calculations-result__value--size--large {
+		font-size: 40rem;
+
+		@media (width >= 768px) {
+			font-size: 56rem;
+			line-height: 125%;
+		}
+	}
+
+	.calculations-result__value--color--white {
+		color: var(--color-white);
+	}
+
+	.calculations-result__value--color--lime {
+		color: var(--color-lime);
 	}
 </style>
