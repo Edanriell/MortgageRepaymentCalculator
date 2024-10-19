@@ -34,13 +34,16 @@
 		}
 	});
 
+	const calculatedMonthlyPayment = ref<string>("");
+	const calculatedTotalPayment = ref<string>("");
+
 	const validateInputs = () => {
 		inputsValidationState.value.mortgageAmount = validateMortgageAmount(store.mortgageAmount);
 		inputsValidationState.value.mortgageTerm = validateMortgageTerm(store.mortgageTerm);
 		inputsValidationState.value.interestRate = validateInterestRate(store.interestRate);
 		inputsValidationState.value.mortgageType = validateMortgageType(store.mortgageType);
 
-		return !Object.values(inputsValidationState.value).some(
+		return Object.values(inputsValidationState.value).every(
 			(input) => input.isInputValid === "valid"
 		);
 	};
@@ -89,9 +92,8 @@
 
 	const handleCalculateRepaymentsClick = () => {
 		if (validateInputs()) {
-			console.log("Valid inputs, calculating repayments...");
-		} else {
-			console.log("Invalid inputs, fix the errors.");
+			calculatedMonthlyPayment.value = store.calculateMortgage().monthlyPayment;
+			calculatedTotalPayment.value = store.calculateMortgage().totalPayment;
 		}
 	};
 </script>
@@ -236,7 +238,10 @@
 			</div>
 		</div>
 		<div class="mortgage-calculator__results-section">
-			<div class="mortgage-calculator__results-data-section">
+			<div
+				v-if="calculatedTotalPayment !== '' && calculatedMonthlyPayment !== ''"
+				class="mortgage-calculator__results-data-section"
+			>
 				<h2
 					class="mortgage-calculator__title mortgage-calculator__title--color--light mortgage-calculator__title--align--left"
 				>
@@ -256,7 +261,7 @@
 						<dd
 							class="calculations-result__value calculations-result__value--size--large calculations-result__value--color--lime"
 						>
-							£1,797.74
+							{{ calculatedMonthlyPayment }}
 						</dd>
 					</div>
 					<div class="calculations-result__field">
@@ -268,12 +273,12 @@
 						<dd
 							class="calculations-result__value calculations-result__value--size--normal calculations-result__value--color--white"
 						>
-							£539,322.94
+							{{ calculatedTotalPayment }}
 						</dd>
 					</div>
 				</dl>
 			</div>
-			<div :style="{ display: 'none' }" class="mortgage-calculator__results-info-section">
+			<div v-else class="mortgage-calculator__results-info-section">
 				<img
 					alt="Calculations"
 					class="mortgage-calculator__calculations-image"
