@@ -240,6 +240,7 @@
 		<div class="mortgage-calculator__results-section">
 			<div
 				v-if="calculatedTotalPayment !== '' && calculatedMonthlyPayment !== ''"
+				v-motion-fade
 				class="mortgage-calculator__results-data-section"
 			>
 				<h2
@@ -278,7 +279,7 @@
 					</div>
 				</dl>
 			</div>
-			<div v-else class="mortgage-calculator__results-info-section">
+			<div v-else v-motion-fade class="mortgage-calculator__results-info-section">
 				<img
 					alt="Calculations"
 					class="mortgage-calculator__calculations-image"
