@@ -1,9 +1,12 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+	import { Link } from "@shared/ui/link/ui";
+</script>
 
 <template>
 	<section class="not-found-section">
 		<h1 class="not-found-section__title">404</h1>
 		<p class="not-found-section__text">Sorry, the page you are looking for does not exist.</p>
+		<Link link-href="/" link-text="Go Back to Home" />
 	</section>
 </template>
 
