@@ -13,9 +13,28 @@
 		validateMortgageType
 	} from "../lib";
 
+	type InputsValidationState = {
+		mortgageAmount: {
+			isInputValid: "idle" | "valid" | "invalid";
+			errorMessage: string;
+		};
+		mortgageTerm: {
+			isInputValid: "idle" | "valid" | "invalid";
+			errorMessage: string;
+		};
+		interestRate: {
+			isInputValid: "idle" | "valid" | "invalid";
+			errorMessage: string;
+		};
+		mortgageType: {
+			isInputValid: "idle" | "valid" | "invalid";
+			errorMessage: string;
+		};
+	};
+
 	const store = useMortgageCalculatorStore();
 
-	const inputsValidationState = ref({
+	const initialInputsValidationState = {
 		mortgageAmount: {
 			isInputValid: "idle",
 			errorMessage: ""
@@ -32,7 +51,11 @@
 			isInputValid: "idle",
 			errorMessage: ""
 		}
-	});
+	};
+
+	const inputsValidationState = ref<InputsValidationState>(
+		JSON.parse(JSON.stringify(initialInputsValidationState))
+	);
 
 	const calculatedMonthlyPayment = ref<string>("");
 	const calculatedTotalPayment = ref<string>("");
@@ -90,6 +113,13 @@
 		}
 	});
 
+	const handleClearAllClick = () => {
+		store.$reset();
+		inputsValidationState.value = JSON.parse(JSON.stringify(initialInputsValidationState));
+		calculatedMonthlyPayment.value = "";
+		calculatedTotalPayment.value = "";
+	};
+
 	const handleCalculateRepaymentsClick = () => {
 		if (validateInputs()) {
 			calculatedMonthlyPayment.value = store.calculateMortgage().monthlyPayment;
@@ -107,7 +137,7 @@
 				>
 					Mortgage Calculator
 				</h2>
-				<Button button-text="Clear All" button-type="text-only" @click="store.$reset()" />
+				<Button button-text="Clear All" button-type="text-only" @click="handleClearAllClick" />
 			</header>
 			<div class="mortgage-calculator__mortgage-calculator-content mortgage-calculator-content">
 				<fieldset class="mortgage-calculator-content__fieldset">

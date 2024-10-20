@@ -1,4 +1,9 @@
-export const validateMortgageAmount = (value: string) => {
+export const validateMortgageAmount = (
+	value: string
+): {
+	isInputValid: "idle" | "valid" | "invalid";
+	errorMessage: string;
+} => {
 	if (!value.trim()) {
 		return {
 			isInputValid: "invalid",
@@ -17,7 +22,12 @@ export const validateMortgageAmount = (value: string) => {
 	};
 };
 
-export const validateMortgageTerm = (value: string) => {
+export const validateMortgageTerm = (
+	value: string
+): {
+	isInputValid: "idle" | "valid" | "invalid";
+	errorMessage: string;
+} => {
 	if (!value.trim()) {
 		return {
 			isInputValid: "invalid",
@@ -36,7 +46,12 @@ export const validateMortgageTerm = (value: string) => {
 	};
 };
 
-export const validateInterestRate = (value: string) => {
+export const validateInterestRate = (
+	value: string
+): {
+	isInputValid: "idle" | "valid" | "invalid";
+	errorMessage: string;
+} => {
 	if (!value.trim()) {
 		return {
 			isInputValid: "invalid",
@@ -57,7 +72,12 @@ export const validateInterestRate = (value: string) => {
 	};
 };
 
-export const validateMortgageType = (value: string) => {
+export const validateMortgageType = (
+	value: string
+): {
+	isInputValid: "idle" | "valid" | "invalid";
+	errorMessage: string;
+} => {
 	if (value) {
 		return {
 			isInputValid: "valid",
