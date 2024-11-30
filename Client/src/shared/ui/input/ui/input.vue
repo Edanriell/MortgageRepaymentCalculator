@@ -7,7 +7,7 @@
 		inputClasses?: string;
 		inputFieldClasses?: string;
 		inputId?: string;
-		inputType?: "text" | "radio";
+		inputType?: "text" | "number" | "radio";
 		labelPosition?: "left" | "right";
 		placeholder?: string;
 		isSelected?: boolean;
@@ -23,7 +23,7 @@
 		inputClasses = "",
 		inputFieldClasses = "",
 		inputId = "",
-		inputType = "text",
+		inputType = "number",
 		labelPosition = "right",
 		placeholder = "",
 		isSelected = false,
@@ -71,6 +71,40 @@
 			:placeholder="placeholder"
 			:value="modelValue"
 			type="text"
+			@input="updateValue"
+		/>
+	</div>
+	<div v-if="inputType === 'number'" :class="inputFieldClasses">
+		<label
+			:class="{
+				input__label: true,
+				'input__label--color--light': true,
+				'input__label--position-left': labelPosition === 'left',
+				'input__label--position-right': labelPosition === 'right',
+				'input__label--state--invalid--position--left':
+					labelPosition === 'left' && isValid === 'invalid',
+				'input__label--state--invalid--position--right':
+					labelPosition === 'right' && isValid === 'invalid',
+				'input__label--state--valid--position--left':
+					labelPosition === 'left' && isValid === 'valid',
+				'input__label--state--valid--position--right':
+					labelPosition === 'right' && isValid === 'valid'
+			}"
+			:for="labelFor"
+			>{{ labelName }}</label
+		>
+		<input
+			:id="inputId"
+			:class="{
+				'input input--type--number': true,
+				'input--state--invalid': isValid === 'invalid',
+				'input--state--valid': isValid === 'valid',
+				[inputClasses]: inputClasses
+			}"
+			:name="inputName"
+			:placeholder="placeholder"
+			:value="modelValue"
+			type="number"
 			@input="updateValue"
 		/>
 	</div>
@@ -256,6 +290,38 @@
 		transition:
 			border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955),
 			background 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+
+		&:hover {
+			border: 1px solid var(--color-slate-900);
+		}
+
+		&:active {
+			border: 1px solid var(--color-slate-900);
+		}
+	}
+
+	.input--type--number {
+		width: inherit;
+		border: 1rem solid var(--color-slate-500);
+		border-radius: 4rem !important;
+		font-family: var(--font-family), sans-serif;
+		font-weight: 700;
+		font-size: 18rem;
+		line-height: 125%;
+		color: var(--color-slate-900);
+		padding: 12.5rem 0;
+		position: relative;
+		will-change: border, background;
+		transition:
+			border 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955),
+			background 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+		-moz-appearance: textfield;
+
+		&::-webkit-outer-spin-button,
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+			margin: 0;
+		}
 
 		&:hover {
 			border: 1px solid var(--color-slate-900);
